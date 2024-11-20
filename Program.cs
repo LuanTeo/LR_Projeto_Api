@@ -1,3 +1,5 @@
+using LR_Projeto_Api.DataContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);

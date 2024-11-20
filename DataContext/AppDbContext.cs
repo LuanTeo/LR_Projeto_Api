@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace AppGestaoFacil.DataContext
+namespace LR_Projeto_Api.DataContext
 {
     public class AppDbContext : DbContext
     {
