@@ -1,15 +1,23 @@
-﻿namespace LR_Projeto_Api.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LR_Projeto_Api.Models
 {
+    [Table("Periferico")]
     public class Periferico
     {
-        public int id { get; set; }
+        [Column("id_per")]
+        public int Id { get; set; }
 
-        public double Periferico { get; set; }
+        [Column("valor_per")]
+        public double Valor { get; set; }
 
-        public string Especificacao_Periferico { get; set; }
+        [Column("especificacao_per")]
+        public string? Especificacao { get; set; }
 
-        public string Link_Periferico { get; set; }
+        [Column("link_per")]
+        public string Link { get; set; }
 
-
+        [Column("unidade_per")]
+        public int Unidade { get; set; }
     }
 }
