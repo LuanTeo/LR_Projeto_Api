@@ -196,6 +196,7 @@ CREATE TABLE `Carrinho` (
 -- -----------------------------------------------------
 CREATE TABLE `Periferico` (
   `id_per` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nome_per` VARCHAR(85) NOT NULL,
   `valor_per` DOUBLE NOT NULL,
   `especificacao_per` TINYTEXT ,
   `link_per` VARCHAR(255) NOT NULL,

@@ -19,5 +19,7 @@ namespace LR_Projeto_Api.Models
 
         [Column("descricao_set")]
         public string? Descricao { get; set; }
+
+        public ICollection<Favorito>? Favoritos { get; set; }
     }
 }
