@@ -26,6 +26,12 @@ namespace LR_Projeto_Api.DataContext
                 .WithMany(e => e.Cidades)
                 .HasForeignKey(e => e.EstadoId)
                 .IsRequired(false);
+
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.Cidade)
+                .WithMany(c => c.Usuarios)
+                .HasForeignKey(u => u.CidadeId)
+                
         }
     }
 }

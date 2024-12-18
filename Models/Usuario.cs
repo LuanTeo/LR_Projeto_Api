@@ -29,5 +29,13 @@ namespace LR_Projeto_Api.Models
 
         [Column("datanasc_usu")]
         public DateTime Data_Nascimento { get; set; }
+
+        [Column("id_cid_fk")]
+        public int CidadeId { get; set; }
+
+        // Propriedade de navegação
+        public virtual Cidade? Cidade { get; set; }
+
+
     }
 }

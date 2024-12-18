@@ -16,5 +16,7 @@ namespace LR_Projeto_Api.Models
         public int EstadoId { get; set; }
 
         public virtual Estado? Estado { get; set; }
+
+        public virtual ICollection<Usuario>? Usuarios { get; set; }
     }
 }
