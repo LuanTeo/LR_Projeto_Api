@@ -36,6 +36,7 @@ namespace LR_Projeto_Api.Models
         // Propriedade de navegação
         public virtual Cidade? Cidade { get; set; }
 
+        public virtual ICollection<Endereco>? Endereco { get; set; }
 
     }
 }

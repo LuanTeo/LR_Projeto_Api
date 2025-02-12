@@ -12,7 +12,7 @@ namespace LR_Projeto_Api.DTO
         public string? Especificacao { get; set; }
 
         [Required]
-        public string Link { get; set; }
+        public string Link { get; set; } 
 
         [Required]
         public double Valor { get; set; }
