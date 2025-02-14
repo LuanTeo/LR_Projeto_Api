@@ -16,7 +16,7 @@ namespace LR_Projeto_Api.DataContext
 
         public DbSet<Usuario> Usuarios { get; set; }
 
-        public DbSet<Estado>  Estados { get; set; }
+        public DbSet<Estado> Estados { get; set; }
 
         public DbSet<Cidade> Cidades { get; set; }
 
@@ -31,8 +31,9 @@ namespace LR_Projeto_Api.DataContext
             modelBuilder.Entity<Usuario>()
                 .HasOne(u => u.Cidade)
                 .WithMany(c => c.Usuarios)
-                .HasForeignKey(u => u.CidadeId)
-                
+                .HasForeignKey(u => u.CidadeId);
+
+
         }
     }
 }

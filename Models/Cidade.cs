@@ -10,7 +10,7 @@ namespace LR_Projeto_Api.Models
         public int Id { get; set; }
 
         [Column("nome_cid")]
-        public string Nome { get; set; }
+        public string Nome { get; set; } = "";
 
         [Column("id_est_fk")]
         public int EstadoId { get; set; }

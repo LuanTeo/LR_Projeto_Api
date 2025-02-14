@@ -1,6 +1,13 @@
 ﻿using LR_Projeto_Api.DataContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LR_Projeto_Api.DTO;
+using LR_Projeto_Api.Models;
+using System.Security.Cryptography;
+
+{
+    
+}
 
 namespace LR_Projeto_Api.Controllers
 {
@@ -47,6 +54,43 @@ namespace LR_Projeto_Api.Controllers
             {
                 return Problem(e.Message);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] UsuarioDTO item){
+            try
+            {
+                if (!await CityExists(item.CidadeId))
+                {
+                    return BadRequest("A Cidade fornecida não existe!");
+                }
+
+                var usuario = new Usuario {
+                    Nome = item.Nome,
+                    Email = item.Email,
+                    Senha = item.Senha,
+                    Genero = item.Genero,
+                    Telefone = item.Telefone,
+                    Data_Nascimento = item.Data_Nascimento,
+                    Cpf = item.Cpf,
+                    CidadeId = item.CidadeId
+                };
+
+                await _context.Usuarios.AddAsync(usuario);
+                await _context.SaveChangesAsync();
+
+                return Created("", usuario);
+            }
+            catch (Exception)
+            {
+                return Problem();
+            }
+        }
+
+        [HttpPut("{}")]
+
+        private async Task<bool> CityExists(int id){
+            return await _context.Cidades.AnyAsync(e => e.Id == id);
         }
     }
 }
