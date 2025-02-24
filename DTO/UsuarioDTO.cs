@@ -18,7 +18,6 @@ namespace LR_Projeto_Api.DTO
         public string Email { get; set; } = "";
 
         [Required]
-        [StringLength(14, ErrorMessage = "CPF nessecita estar no formato xxx.xxx.xxx-xx")]
         [CustomValidation(typeof(CustomValidator), nameof(CustomValidator.IsEven))]
         public int Cpf { get; set; }
 

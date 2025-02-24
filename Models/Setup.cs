@@ -21,5 +21,11 @@ namespace LR_Projeto_Api.Models
         public string? Descricao { get; set; }
 
         public ICollection<Favorito>? Favoritos { get; set; }
+
+        public ICollection<Carrinho>? Carrinho { get; set; }
+
+        public ICollection<SetupComputador>? SetupComputador { get; set; }
+
+        public ICollection<SetupPeriferico>? SetupPeriferico { get; set; }
     }
 }

@@ -19,5 +19,7 @@ namespace LR_Projeto_Api.Models
 
         [Column("unidade_per")]
         public int Unidade { get; set; }
+
+        public ICollection<SetupPeriferico>? SetupPeriferico { get; set; }
     }
 }

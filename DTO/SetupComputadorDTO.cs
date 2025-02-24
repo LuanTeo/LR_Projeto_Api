@@ -2,12 +2,12 @@
 
 namespace LR_Projeto_Api.DTO
 {
-    public class FavoritoDTO
+    public class SetupComputadorDTO
     {
         [Required]
-        public int UsuarioId { get; set; }
+        public int SetupId { get; set; }
 
         [Required]
-        public int SetupId { get; set; }
+        public int ComputadorId { get; set; }
     }
 }

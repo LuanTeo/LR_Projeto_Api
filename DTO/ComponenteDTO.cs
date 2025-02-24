@@ -6,13 +6,13 @@ namespace LR_Projeto_Api.DTO
     {
         [Required]
         [MinLength(3, ErrorMessage = "Nome deve ter no minimo 3 caracteres")]
-        public string Nome { get; set; }
+        public string Nome { get; set; } = "";
 
         [MinLength(5, ErrorMessage = "Especificação deve conter no mínimo 1 especificação detalhada")]
         public string? Especificacao { get; set; }
 
         [Required]
-        public string Link { get; set; } 
+        public string Link { get; set; } = "";
 
         [Required]
         public double Valor { get; set; }

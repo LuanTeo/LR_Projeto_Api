@@ -38,5 +38,8 @@ namespace LR_Projeto_Api.Models
 
         public virtual ICollection<Endereco>? Endereco { get; set; }
 
+        public virtual ICollection<Favorito>? Favorito { get; set; }
+
+        public virtual ICollection<Carrinho>? Carrinho { get; set; }
     }
 }

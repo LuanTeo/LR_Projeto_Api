@@ -11,10 +11,10 @@ namespace LR_Projeto_Api.Models
         public int Id { get; set; }
 
         [Column("rua_end")]
-        public string Rua_Lote {  get; set; }
+        public string Rua_Lote { get; set; } = "";
 
         [Column("bairro_end")]
-        public string Bairro {  get; set; }
+        public string Bairro {  get; set; } = "";
 
         [Column("numero_end")]
         public string? Numero { get; set; }
@@ -23,7 +23,7 @@ namespace LR_Projeto_Api.Models
         public string? Complemento { get; set; }
 
         [Column("referencia_end")]
-        public string Referencia { get; set; }
+        public string Referencia { get; set; } = "";
 
         [Column("cep_end")]
         public int Cep { get; set; }
