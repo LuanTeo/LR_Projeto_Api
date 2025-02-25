@@ -5,10 +5,6 @@ using LR_Projeto_Api.DTO;
 using LR_Projeto_Api.Models;
 using System.Security.Cryptography;
 
-{
-    
-}
-
 namespace LR_Projeto_Api.Controllers
 {
     [ApiController]
@@ -19,7 +15,7 @@ namespace LR_Projeto_Api.Controllers
 
         public UserController(AppDbContext context) {
 
-            context = _context;
+            _context = context;
         }
 
         [HttpGet]
@@ -87,7 +83,60 @@ namespace LR_Projeto_Api.Controllers
             }
         }
 
-        [HttpPut("{}")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] UsuarioDTO item)
+        {
+            try
+            {
+                var usuario = await _context.Usuarios.FindAsync(id);
+
+                if (usuario is null)
+                {
+                    return NotFound();
+                }
+
+                usuario.Nome = item.Nome;
+                usuario.Email = item.Email;
+                usuario.Senha = item.Senha;
+                usuario.Genero = item.Genero;
+                usuario.Telefone = item.Telefone;
+                usuario.Data_Nascimento = item.Data_Nascimento;
+                usuario.Cpf = item.Cpf;
+                usuario.CidadeId = item.CidadeId;
+
+                _context.Usuarios.Update(usuario);
+                await _context.SaveChangesAsync();
+
+                return Ok(usuario);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var usuario = await _context.Usuarios.FindAsync(id);
+
+                if (usuario is null)
+                {
+                    return NotFound();
+                }
+
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
 
         private async Task<bool> CityExists(int id){
             return await _context.Cidades.AnyAsync(e => e.Id == id);
