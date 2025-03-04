@@ -269,6 +269,8 @@ CREATE TABLE `Pagamento` (
   `data_pag` DATE NOT NULL,
   `id_car_fk` INT NOT NULL,
   `id_usu_fk` INT NOT NULL,
-    FOREIGN KEY (`id_car_fk` , `id_usu_fk`)
-    REFERENCES `Carrinho` (`id_car` , `id_usu_fk`)
+    FOREIGN KEY (`id_car_fk`)
+    REFERENCES `Carrinho` (`id_car`),
+    foreign key (`id_usu_fk`)
+    references `Usuario`(`id_usu`)
 );
