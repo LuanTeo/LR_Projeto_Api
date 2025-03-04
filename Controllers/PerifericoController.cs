@@ -1,18 +1,18 @@
 ﻿using LR_Projeto_Api.DataContext;
+using LR_Projeto_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LR_Projeto_Api.DTO;
-using LR_Projeto_Api.Models;
 
 namespace LR_Projeto_Api.Controllers
 {
     [ApiController]
-    [Route("componente")]
-    public class ComponenteController : Controller
+    [Route("periferico")]
+    public class PerifericoController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ComponenteController(AppDbContext context)
+        public PerifericoController(AppDbContext context)
         {
             _context = context;
         }
@@ -22,9 +22,8 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var listaComponentes = await _context.Componentes.ToListAsync();
-
-                return Ok(listaComponentes);
+                var listaPerifericos = await _context.Perifericos.ToListAsync();
+                return Ok(listaPerifericos);
             }
             catch (Exception e)
             {
@@ -37,14 +36,14 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var componente = await _context.Componentes.Where(s => s.Id == id).FirstOrDefaultAsync();
+                var periferico = await _context.Perifericos.FindAsync(id);
 
-                if (componente == null)
+                if (periferico == null)
                 {
-                    return NotFound($"Componente #{id} não encontrado");
+                    return NotFound($"Periférico #{id} não encontrado");
                 }
 
-                return Ok(componente);
+                return Ok(periferico);
             }
             catch (Exception e)
             {
@@ -53,53 +52,49 @@ namespace LR_Projeto_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ComponenteDTO item)
+        public async Task<IActionResult> Post([FromBody] PerifericoDTO item)
         {
             try
             {
-
-                var componentes = new Componente()
+                var periferico = new Periferico()
                 {
-                    Nome = item.Nome,
+                    Valor = item.Valor,
                     Especificacao = item.Especificacao,
                     Link = item.Link,
-                    Valor = item.Valor,
                     Unidade = item.Unidade
                 };
-
-                await _context.Componentes.AddAsync(componentes);
+                await _context.Perifericos.AddAsync(periferico);
                 await _context.SaveChangesAsync();
 
-                return Created("", componentes);
+                return Created("", periferico);
             }
             catch (Exception e)
             {
-                return Problem();
+                return Problem(e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] ComponenteDTO item)
+        public async Task<IActionResult> Put(int id, [FromBody] PerifericoDTO item)
         {
             try
             {
-                var componente = await _context.Componentes.FindAsync(id);
+                var periferico = await _context.Perifericos.FindAsync(id);
 
-                if (componente is null)
+                if (periferico is null)
                 {
                     return NotFound();
                 }
 
-                componente.Nome = item.Nome;
-                componente.Especificacao = item.Especificacao;
-                componente.Link = item.Link;
-                componente.Valor = item.Valor;
-                componente.Unidade = item.Unidade;
+                periferico.Valor = item.Valor;
+                periferico.Especificacao = item.Especificacao;
+                periferico.Link = item.Link;
+                periferico.Unidade = item.Unidade;
 
-                _context.Componentes.Update(componente);
+                _context.Perifericos.Update(periferico);
                 await _context.SaveChangesAsync();
 
-                return Ok(componente);
+                return Ok(periferico);
             }
             catch (Exception e)
             {
@@ -112,14 +107,14 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var componente = await _context.Componentes.FindAsync(id);
+                var periferico = await _context.Perifericos.FindAsync(id);
 
-                if (componente is null)
+                if (periferico == null)
                 {
                     return NotFound();
                 }
 
-                _context.Componentes.Remove(componente);
+                _context.Perifericos.Remove(periferico);
                 await _context.SaveChangesAsync();
 
                 return Ok();

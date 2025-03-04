@@ -9,5 +9,5 @@ namespace LR_Projeto_Api.DTO
 
         [Required]
         public int ComputadorId { get; set; }
-    }
+    }   
 }

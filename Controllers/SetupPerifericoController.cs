@@ -1,18 +1,18 @@
 ﻿using LR_Projeto_Api.DataContext;
+using LR_Projeto_Api.DTO;
 using LR_Projeto_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LR_Projeto_Api.DTO;
 
 namespace LR_Projeto_Api.Controllers
 {
     [ApiController]
-    [Route("estado")]
-    public class EstadoController : Controller
+    [Route("setupsPerifericos")]
+    public class SetupPerifericosController : Controller
     {
         private readonly AppDbContext _context;
 
-        public EstadoController(AppDbContext context)
+        public SetupPerifericosController(AppDbContext context)
         {
             _context = context;
         }
@@ -22,9 +22,8 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var listaEstados = await _context.Estados.ToListAsync();
-
-                return Ok(listaEstados);
+                var listaPerifericos = await _context.SetupsPerifericos.ToListAsync();
+                return Ok(listaPerifericos);
             }
             catch (Exception e)
             {
@@ -37,14 +36,14 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var estado = await _context.Estados.Where(s => s.Id == id).FirstOrDefaultAsync();
+                var periferico = await _context.SetupsPerifericos.FindAsync(id);
 
-                if (estado == null)
+                if (periferico == null)
                 {
-                    return NotFound($"Estado #{id} não encontrado");
+                    return NotFound($"Periférico #{id} não encontrado");
                 }
 
-                return Ok(estado);
+                return Ok(periferico);
             }
             catch (Exception e)
             {
@@ -53,47 +52,47 @@ namespace LR_Projeto_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] EstadoDTO item)
+        public async Task<IActionResult> Post([FromBody] SetupPerifericoDTO item)
         {
             try
             {
-
-                var estados = new Estado()
+                var periferico = new SetupPeriferico()
                 {
-                    Nome = item.Nome,
-                    Uf = item.Uf
+                    SetupId = item.SetupId,
+                    PerifericoId = item.PerifericoId,
+                   
                 };
 
-                await _context.Estados.AddAsync(estados);
+                await _context.SetupsPerifericos.AddAsync(periferico);
                 await _context.SaveChangesAsync();
 
-                return Created("", estados);
+                return Created("", periferico);
             }
             catch (Exception e)
             {
-                return Problem();
+                return Problem(e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] EstadoDTO item)
+        public async Task<IActionResult> Put(int id, [FromBody] SetupPerifericoDTO item)
         {
             try
             {
-                var estado = await _context.Estados.FindAsync(id);
+                var periferico = await _context.SetupsPerifericos.FindAsync(id);
 
-                if (estado is null)
+                if (periferico is null)
                 {
                     return NotFound();
                 }
 
-                estado.Nome = item.Nome;
-                estado.Uf = item.Uf;
+                periferico.SetupId = item.SetupId;
+                periferico.PerifericoId = item.PerifericoId;     
 
-                _context.Estados.Update(estado);
+                _context.SetupsPerifericos.Update(periferico);
                 await _context.SaveChangesAsync();
 
-                return Ok(estado);
+                return Ok(periferico);
             }
             catch (Exception e)
             {
@@ -106,17 +105,17 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var estado = await _context.Estados.FindAsync(id);
+                var periferico = await _context.SetupsPerifericos.FindAsync(id);
 
-                if (estado is null)
+                if (periferico is null)
                 {
                     return NotFound();
                 }
 
-                _context.Estados.Remove(estado);
+                _context.SetupsPerifericos.Remove(periferico);
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return Ok(new { message = $"Periférico #{id} removido com sucesso" });
             }
             catch (Exception e)
             {

@@ -1,18 +1,18 @@
 ﻿using LR_Projeto_Api.DataContext;
+using LR_Projeto_Api.DTO;
 using LR_Projeto_Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LR_Projeto_Api.DTO;
 
 namespace LR_Projeto_Api.Controllers
 {
     [ApiController]
-    [Route("estado")]
-    public class EstadoController : Controller
+    [Route("setupComputador")]
+    public class SetupComputadorController : Controller
     {
         private readonly AppDbContext _context;
 
-        public EstadoController(AppDbContext context)
+        public SetupComputadorController(AppDbContext context)
         {
             _context = context;
         }
@@ -22,9 +22,8 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var listaEstados = await _context.Estados.ToListAsync();
-
-                return Ok(listaEstados);
+                var listaSetups = await _context.SetupsComputadores.ToListAsync();
+                return Ok(listaSetups);
             }
             catch (Exception e)
             {
@@ -37,14 +36,14 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var estado = await _context.Estados.Where(s => s.Id == id).FirstOrDefaultAsync();
+                var setup = await _context.SetupsComputadores.FindAsync(id);
 
-                if (estado == null)
+                if (setup == null)
                 {
-                    return NotFound($"Estado #{id} não encontrado");
+                    return NotFound($"Setup de Computador #{id} não encontrado");
                 }
 
-                return Ok(estado);
+                return Ok(setup);
             }
             catch (Exception e)
             {
@@ -53,47 +52,46 @@ namespace LR_Projeto_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] EstadoDTO item)
+        public async Task<IActionResult> Post([FromBody] SetupComputadorDTO item)
         {
             try
             {
-
-                var estados = new Estado()
+                var setup = new SetupComputador()
                 {
-                    Nome = item.Nome,
-                    Uf = item.Uf
+                    SetupId = item.SetupId,
+                    ComputadorId = item.ComputadorId,
                 };
 
-                await _context.Estados.AddAsync(estados);
+                await _context.SetupsComputadores.AddAsync(setup);
                 await _context.SaveChangesAsync();
 
-                return Created("", estados);
+                return Created("", setup);
             }
             catch (Exception e)
             {
-                return Problem();
+                return Problem(e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] EstadoDTO item)
+        public async Task<IActionResult> Put(int id, [FromBody] SetupComputadorDTO item)
         {
             try
             {
-                var estado = await _context.Estados.FindAsync(id);
+                var setup = await _context.SetupsComputadores.FindAsync(id);
 
-                if (estado is null)
+                if (setup is null)
                 {
                     return NotFound();
                 }
 
-                estado.Nome = item.Nome;
-                estado.Uf = item.Uf;
-
-                _context.Estados.Update(estado);
+                setup.SetupId = item.SetupId;
+                setup.ComputadorId = item.ComputadorId;
+        
+                _context.SetupsComputadores.Update(setup);
                 await _context.SaveChangesAsync();
 
-                return Ok(estado);
+                return Ok(setup);
             }
             catch (Exception e)
             {
@@ -106,17 +104,17 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var estado = await _context.Estados.FindAsync(id);
+                var setup = await _context.SetupsComputadores.FindAsync(id);
 
-                if (estado is null)
+                if (setup is null)
                 {
                     return NotFound();
                 }
 
-                _context.Estados.Remove(estado);
+                _context.SetupsComputadores.Remove(setup);
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return Ok(new { message = $"Setup de Computador #{id} removido com sucesso" });
             }
             catch (Exception e)
             {

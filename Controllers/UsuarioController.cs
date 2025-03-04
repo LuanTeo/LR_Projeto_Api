@@ -9,11 +9,11 @@ namespace LR_Projeto_Api.Controllers
 {
     [ApiController]
     [Route("usuario")]
-    public class UserController : Controller
+    public class UsuarioController : Controller
     {
         private readonly AppDbContext _context;
 
-        public UserController(AppDbContext context) {
+        public UsuarioController(AppDbContext context) {
 
             _context = context;
         }

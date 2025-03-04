@@ -1,18 +1,18 @@
 ﻿using LR_Projeto_Api.DataContext;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LR_Projeto_Api.DTO;
 using LR_Projeto_Api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LR_Projeto_Api.Controllers
 {
     [ApiController]
-    [Route("componente")]
-    public class ComponenteController : Controller
+    [Route("computadorComponente")]
+    public class ComputadorComponenteController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ComponenteController(AppDbContext context)
+        public ComputadorComponenteController(AppDbContext context)
         {
             _context = context;
         }
@@ -22,8 +22,7 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var listaComponentes = await _context.Componentes.ToListAsync();
-
+                var listaComponentes = await _context.ComputadoresComponentes.ToListAsync();
                 return Ok(listaComponentes);
             }
             catch (Exception e)
@@ -37,7 +36,7 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var componente = await _context.Componentes.Where(s => s.Id == id).FirstOrDefaultAsync();
+                var componente = await _context.ComputadoresComponentes.FindAsync(id);
 
                 if (componente == null)
                 {
@@ -53,50 +52,45 @@ namespace LR_Projeto_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ComponenteDTO item)
+        public async Task<IActionResult> Post([FromBody] ComputadorComponenteDTO item)
         {
             try
             {
-
-                var componentes = new Componente()
+                var componente = new ComputadorComponente()
                 {
-                    Nome = item.Nome,
-                    Especificacao = item.Especificacao,
-                    Link = item.Link,
-                    Valor = item.Valor,
-                    Unidade = item.Unidade
+                    Quantidade = item.Quantidade,
+                    ComputadorID = item.ComputadorID,
+                    ComponenteId = item.ComputadorID,     
                 };
 
-                await _context.Componentes.AddAsync(componentes);
+                await _context.ComputadoresComponentes.AddAsync(componente);
                 await _context.SaveChangesAsync();
 
-                return Created("", componentes);
+                return Created("", componente);
             }
             catch (Exception e)
             {
-                return Problem();
+                return Problem(e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] ComponenteDTO item)
+        public async Task<IActionResult> Put(int id, [FromBody] ComputadorComponenteDTO item)
         {
             try
             {
-                var componente = await _context.Componentes.FindAsync(id);
+                var componente = await _context.ComputadoresComponentes.FindAsync(id);
 
                 if (componente is null)
                 {
                     return NotFound();
                 }
 
-                componente.Nome = item.Nome;
-                componente.Especificacao = item.Especificacao;
-                componente.Link = item.Link;
-                componente.Valor = item.Valor;
-                componente.Unidade = item.Unidade;
+                componente.Quantidade = item.Quantidade;
+                componente.ComputadorID = item.ComputadorID;
+                componente.ComponenteId = item.ComponenteId;       
 
-                _context.Componentes.Update(componente);
+                _context.ComputadoresComponentes.Update(componente);
                 await _context.SaveChangesAsync();
 
                 return Ok(componente);
@@ -112,17 +106,17 @@ namespace LR_Projeto_Api.Controllers
         {
             try
             {
-                var componente = await _context.Componentes.FindAsync(id);
+                var componente = await _context.ComputadoresComponentes.FindAsync(id);
 
                 if (componente is null)
                 {
                     return NotFound();
                 }
 
-                _context.Componentes.Remove(componente);
+                _context.ComputadoresComponentes.Remove(componente);
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return Ok(new { message = $"Componente #{id} removido com sucesso" });
             }
             catch (Exception e)
             {
