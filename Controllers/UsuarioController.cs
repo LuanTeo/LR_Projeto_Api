@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using LR_Projeto_Api.DTO;
 using LR_Projeto_Api.Models;
 using System.Security.Cryptography;
+using System.Globalization;
 
 namespace LR_Projeto_Api.Controllers
 {
@@ -61,13 +62,15 @@ namespace LR_Projeto_Api.Controllers
                     return BadRequest("A Cidade fornecida não existe!");
                 }
 
+                DateTime dataConvertida = DateTime.ParseExact(item.Data_Nascimento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
                 var usuario = new Usuario {
                     Nome = item.Nome,
                     Email = item.Email,
                     Senha = item.Senha,
                     Genero = item.Genero,
                     Telefone = item.Telefone,
-                    Data_Nascimento = item.Data_Nascimento,
+                    Data_Nascimento = dataConvertida,
                     Cpf = item.Cpf,
                     CidadeId = item.CidadeId
                 };
@@ -94,13 +97,14 @@ namespace LR_Projeto_Api.Controllers
                 {
                     return NotFound();
                 }
+                DateTime dataConvertida = DateTime.ParseExact(item.Data_Nascimento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 usuario.Nome = item.Nome;
                 usuario.Email = item.Email;
                 usuario.Senha = item.Senha;
                 usuario.Genero = item.Genero;
                 usuario.Telefone = item.Telefone;
-                usuario.Data_Nascimento = item.Data_Nascimento;
+                usuario.Data_Nascimento = dataConvertida;
                 usuario.Cpf = item.Cpf;
                 usuario.CidadeId = item.CidadeId;
 

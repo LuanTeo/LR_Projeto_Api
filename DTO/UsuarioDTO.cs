@@ -18,8 +18,8 @@ namespace LR_Projeto_Api.DTO
         public string Email { get; set; } = "";
 
         [Required]
-        [CustomValidation(typeof(CustomValidator), nameof(CustomValidator.IsEven))]
-        public int Cpf { get; set; }
+        [StringLength(11, ErrorMessage = "CPF precisa estar no formato xxxxxxxxxxx")]
+        public string Cpf { get; set; }
 
         [Required]
         [Phone]
@@ -29,8 +29,8 @@ namespace LR_Projeto_Api.DTO
         public string Senha { get; set; } = "";
 
         [Required]
-        [RegularExpression(@"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", ErrorMessage = "Data nessecita estar no formato YYYY-MM-DD.")]
-        public DateTime Data_Nascimento { get; set; }
+        [StringLength(10, ErrorMessage = "Data precisa estar no formato dd/MM/YYYY")]
+        public string Data_Nascimento { get; set; }
 
         [Required]
         public int CidadeId { get; set; }

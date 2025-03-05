@@ -19,7 +19,7 @@ namespace LR_Projeto_Api.Models
         public string Email { get; set; }
 
         [Column("cpf_usu")]
-        public int Cpf { get; set; }
+        public string Cpf { get; set; }
 
         [Column("telefone_usu")]
         public string Telefone {  get; set; }
@@ -33,7 +33,7 @@ namespace LR_Projeto_Api.Models
         [Column("id_cid_fk")]
         public int CidadeId { get; set; }
 
-        // Propriedade de navegação
+
         public virtual Cidade? Cidade { get; set; }
 
         public virtual ICollection<Endereco>? Endereco { get; set; }

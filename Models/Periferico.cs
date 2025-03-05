@@ -8,6 +8,9 @@ namespace LR_Projeto_Api.Models
         [Column("id_per")]
         public int Id { get; set; }
 
+        [Column("nome_per")]
+        public string Nome { get; set; }
+
         [Column("valor_per")]
         public double Valor { get; set; }
 

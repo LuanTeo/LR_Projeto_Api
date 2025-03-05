@@ -1,19 +1,5 @@
 CREATE DATABASE `lr_projeto_api`;
 USE `lr_projeto_api` ;
-
--- -----------------------------------------------------
--- Table `LR_Projeto_Api`.`Usuario`
--- -----------------------------------------------------
-CREATE TABLE `Usuario` (
-  `id_usu` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `nome_usu` VARCHAR(150) NOT NULL,
-  `genero_usu` INT,
-  `email_usu` VARCHAR(150) NOT NULL,
-  `cpf_usu` VARCHAR(14) UNIQUE,
-  `telefone_usu` VARCHAR(95) NOT NULL,
-  `senha_usu` VARCHAR(255) NOT NULL,
-  `datanasc_usu` DATE
-  );
 -- -----------------------------------------------------
 -- Table `LR_Projeto_Api`.`Estado`
 -- -----------------------------------------------------
@@ -56,7 +42,7 @@ CREATE TABLE `Estado` (
 -- -----------------------------------------------------
 CREATE TABLE `Cidade` (
   `id_cid` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `nome_cid` VARCHAR(40) NOT NULL,
+  `nome_cid` VARCHAR(40) NOT NULL UNIQUE,
   `id_est_fk` INT NOT NULL,
    FOREIGN KEY (`id_est_fk`)
     REFERENCES `Estado` (`id_est`)
@@ -141,6 +127,23 @@ INSERT INTO `Cidade` (`nome_cid`, `id_est_fk`) VALUES
 ('São Paulo', 25),
 ('Aracaju', 26),
 ('Palmas', 27);
+
+-- -----------------------------------------------------
+-- Table `LR_Projeto_Api`.`Usuario`
+-- -----------------------------------------------------
+CREATE TABLE `Usuario` (
+  `id_usu` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nome_usu` VARCHAR(150) NOT NULL,
+  `genero_usu` INT,
+  `email_usu` VARCHAR(150) NOT NULL,
+  `cpf_usu` VARCHAR(14) UNIQUE,
+  `telefone_usu` VARCHAR(95) NOT NULL,
+  `senha_usu` VARCHAR(255) NOT NULL,
+  `datanasc_usu` DATE,
+  `id_cid_fk` INT NOT NULL,
+   FOREIGN KEY (`id_cid_fk`)
+    REFERENCES `Cidade` (`id_cid`)
+  );
 -- -----------------------------------------------------
 -- Table `LR_Projeto_Api`.`Endereco`
 -- -----------------------------------------------------
@@ -166,6 +169,7 @@ CREATE TABLE `Setup` (
   `valor_set` DOUBLE NOT NULL,
   `descricao_set` TINYTEXT
   );
+
 -- -----------------------------------------------------
 -- Table `LR_Projeto_Api`.`Favorito`
 -- -----------------------------------------------------
@@ -199,9 +203,11 @@ CREATE TABLE `Periferico` (
   `nome_per` VARCHAR(85) NOT NULL,
   `valor_per` DOUBLE NOT NULL,
   `especificacao_per` TINYTEXT ,
-  `link_per` VARCHAR(255) NOT NULL,
+  `link_per` LONGTEXT NOT NULL,
   `unidade_per` INT NOT NULL
  );
+ 
+ INSERT INTO `Periferico` VALUES (NULL, "Headset Gamer Redragon Lamia 2", 450.45, "RGB, Som Surround 7.1, Drivers 40mm, USB, Com Suporte, Branco - H320W-RGB", "https://www.google.com/aclk?sa=l&ai=DChcSEwiPof-u5fGLAxX2XEgAHfDFHYIYABAJGgJjZQ&co=1&gclid=CjwKCAiA5pq-BhBuEiwAvkzVZfdYfTWN3AQYGhKyKAh68JpVXsUVpZ3FbqESvg3-bM8gZSVkTDpa6hoCcOMQAvD_BwE&sig=AOD64_32TJ56usQmM20zADXEDKmRz2Zddw&ctype=5&q=&ved=0ahUKEwjQnvuu5fGLAxXNlJUCHVg3ITUQww8IjQ0&adurl=", 2);
 -- -----------------------------------------------------
 -- Table `LR_Projeto_Api`.`Setup_Periferico`
 -- -----------------------------------------------------
@@ -221,9 +227,11 @@ CREATE TABLE `Computador` (
   `id_com` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `unidade_com` INT NOT NULL,
   `nome_com` VARCHAR(85) NOT NULL,
-  `link_com` VARCHAR(255) NOT NULL,
+  `link_com` LONGTEXT NOT NULL,
   `valor_com` DOUBLE NOT NULL
   );
+  
+  INSERT INTO `Computador` VALUES (NULL, 1, "PC Gamer Aquario White", "https://www.kabum.com.br/produto/614786/pc-gamer-amd-ryzen-5-5600gt-16gb-3200mhz-radeon-vega-7-b450m-ssd-480gb-m-2-500w-80-plus-gabinete-aquario-white-com-3-fans-argb-neologic-nli87565-u-unica-unica", 3678.50);
 -- -----------------------------------------------------
 -- Table `LR_Projeto_Api`.`Setup_Computador`
 -- -----------------------------------------------------
